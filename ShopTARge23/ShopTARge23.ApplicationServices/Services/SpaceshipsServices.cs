@@ -3,6 +3,7 @@ using ShopTARge23.Core.Domain;
 using ShopTARge23.Core.Dto;
 using ShopTARge23.Core.ServiceInterface;
 using ShopTARge23.Data;
+using System.Xml;
 
 
 namespace ShopTARge23.ApplicationServices.Services
@@ -23,6 +24,25 @@ namespace ShopTARge23.ApplicationServices.Services
                 .FirstOrDefaultAsync(x => x.Id == id);
 
             return result;
+        }
+        public async Task<Spaceship> Update(SpaceshipDto dto)
+        {
+            Spaceship domain = new();
+
+            domain.Id = dto.Id;
+            domain.Name = dto.Name;
+            domain.Typename = dto.Typename;
+            domain.SpaceshipModel = dto.SpaceshipModel;
+            domain.BuiltDate = dto.BuiltDate;
+            domain.Crew = dto.Crew;
+            domain.EnginePower = dto.EnginePower;
+            domain.CreatedAt = dto.CreatedAt;
+            domain.ModifiedAt = DateTime.Now;
+
+            _context.Spaceships.Update(domain);
+            await _context.SaveChangesAsync();
+
+            return domain;
         }
     }
 }
