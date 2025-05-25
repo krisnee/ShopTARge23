@@ -22,7 +22,25 @@ namespace ShopTARge23.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("ShopTARge23.Core.Domains.SpaceShip", b =>
+            modelBuilder.Entity("ShopTARge23.Core.Domain.FileToApi", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ExistingFilePath")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("SpaceshipId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FileToApis");
+                });
+
+            modelBuilder.Entity("ShopTARge23.Core.Domain.Spaceship", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -57,7 +75,7 @@ namespace ShopTARge23.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("SpaceShips");
+                    b.ToTable("Spaceships");
                 });
 #pragma warning restore 612, 618
         }
