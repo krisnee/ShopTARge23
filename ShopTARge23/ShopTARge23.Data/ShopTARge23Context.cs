@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ShopTARge23.Core.Domains;
+using ShopTARge23.Core.Domain;
 
 namespace ShopTARge23.Data
 {
@@ -9,7 +9,6 @@ namespace ShopTARge23.Data
             : base(options)
         {
         }
-        public DbSet<SpaceShip> SpaceShips { get; set; }
-
+        public DbSet<Spaceship> Spaceships { get; set; }
     }
 }

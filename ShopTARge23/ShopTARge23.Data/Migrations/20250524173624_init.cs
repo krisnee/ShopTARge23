@@ -12,7 +12,7 @@ namespace ShopTARge23.Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "SpaceShips",
+                name: "Spaceships",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -27,7 +27,7 @@ namespace ShopTARge23.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SpaceShips", x => x.Id);
+                    table.PrimaryKey("PK_Spaceships", x => x.Id);
                 });
         }
 
@@ -35,7 +35,7 @@ namespace ShopTARge23.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "SpaceShips");
+                name: "Spaceships");
         }
     }
 }

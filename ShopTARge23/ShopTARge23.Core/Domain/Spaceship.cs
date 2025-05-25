@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ShopTARge23.Core.Dtos
+﻿
+namespace ShopTARge23.Core.Domain
 {
-    public class ShpaceshipDto
+    public class Spaceship
     {
         public Guid Id { get; set; }
         public string Name { get; set; }

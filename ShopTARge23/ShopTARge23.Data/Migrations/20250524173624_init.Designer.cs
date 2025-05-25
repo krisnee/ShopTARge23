@@ -25,7 +25,7 @@ namespace ShopTARge23.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("ShopTARge23.Core.Domains.SpaceShip", b =>
+            modelBuilder.Entity("ShopTARge23.Core.Domains.Spaceship", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -60,7 +60,7 @@ namespace ShopTARge23.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("SpaceShips");
+                    b.ToTable("Spaceships");
                 });
 #pragma warning restore 612, 618
         }
