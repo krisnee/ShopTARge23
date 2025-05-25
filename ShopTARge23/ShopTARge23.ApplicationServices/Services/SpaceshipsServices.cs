@@ -3,7 +3,6 @@ using ShopTARge23.Core.Domain;
 using ShopTARge23.Core.Dto;
 using ShopTARge23.Core.ServiceInterface;
 using ShopTARge23.Data;
-using System.Xml;
 
 
 namespace ShopTARge23.ApplicationServices.Services
@@ -12,10 +11,12 @@ namespace ShopTARge23.ApplicationServices.Services
     {
         private readonly ShopTARge23Context _context;
 
-        public SpaceshipsServices(ShopTARge23Context context)
+        public SpaceshipsServices
+            (
+                ShopTARge23Context context
+            )
         {
             _context = context;
-           
         }
 
         public async Task<Spaceship> DetailAsync(Guid id)
@@ -25,6 +26,7 @@ namespace ShopTARge23.ApplicationServices.Services
 
             return result;
         }
+
         public async Task<Spaceship> Update(SpaceshipDto dto)
         {
             Spaceship domain = new();
@@ -44,5 +46,17 @@ namespace ShopTARge23.ApplicationServices.Services
 
             return domain;
         }
+
+        public async Task<Spaceship> Delete(Guid id)
+        {
+            var spaceship = await _context.Spaceships
+                .FirstOrDefaultAsync(x => x.Id == id);
+
+            _context.Spaceships.Remove(spaceship);
+            await _context.SaveChangesAsync();
+
+            return spaceship;
+        }
+
     }
 }
