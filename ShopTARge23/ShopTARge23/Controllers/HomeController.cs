@@ -13,6 +13,11 @@ namespace ShopTARge23.Controllers
             _logger = logger;
         }
 
+        public IActionResult Test()
+        {
+            return Content("Töötab!");
+        }
+
         public IActionResult Index()
         {
             return View();
