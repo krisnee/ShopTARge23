@@ -20,19 +20,20 @@ namespace ShopTARge23.ApplicationServices.Services
             _context = context;
         }
 
-        // ===== SPACESHIP MEETODID (olemasolevad) =====
+        // ===== SPACESHIP MEETODID =====
         public void FilesToApi(SpaceshipDto dto, Spaceship spaceship)
         {
             if (dto.Files != null && dto.Files.Count > 0)
             {
-                if (!Directory.Exists(_webHost.ContentRootPath + "\\multipleFileUpload\\"))
+                string uploadsFolder = Path.Combine(_webHost.ContentRootPath, "multipleFileUpload");
+
+                if (!Directory.Exists(uploadsFolder))
                 {
-                    Directory.CreateDirectory(_webHost.ContentRootPath + "\\multipleFileUpload\\");
+                    Directory.CreateDirectory(uploadsFolder);
                 }
 
                 foreach (var file in dto.Files)
                 {
-                    string uploadsFolder = Path.Combine(_webHost.ContentRootPath, "multipleFileUpload");
                     string uniqueFileName = Guid.NewGuid().ToString() + "_" + file.FileName;
                     string filePath = Path.Combine(uploadsFolder, uniqueFileName);
 
@@ -40,35 +41,36 @@ namespace ShopTARge23.ApplicationServices.Services
                     {
                         file.CopyTo(fileStream);
 
-                        FileToApi path = new FileToApi
+                        var path = new FileToApi
                         {
                             Id = Guid.NewGuid(),
                             ExistingFilePath = uniqueFileName,
                             SpaceshipId = spaceship.Id
                         };
 
-                        _context.FileToApis.AddAsync(path);
+                        _context.FileToApis.Add(path);
                     }
                 }
+
+                _context.SaveChanges();
             }
         }
 
         public async Task<FileToApi> RemoveImageFromApi(FileToApiDto dto)
         {
-            var imageId = await _context.FileToApis
+            var image = await _context.FileToApis
                 .FirstOrDefaultAsync(x => x.Id == dto.Id);
 
-            if (imageId != null)
+            if (image != null)
             {
-                var filePath = _webHost.ContentRootPath + "\\multipleFileUpload\\"
-                    + imageId.ExistingFilePath;
+                string filePath = Path.Combine(_webHost.ContentRootPath, "multipleFileUpload", image.ExistingFilePath);
 
                 if (File.Exists(filePath))
                 {
                     File.Delete(filePath);
                 }
 
-                _context.FileToApis.Remove(imageId);
+                _context.FileToApis.Remove(image);
                 await _context.SaveChangesAsync();
             }
 
@@ -79,28 +81,27 @@ namespace ShopTARge23.ApplicationServices.Services
         {
             foreach (var dto in dtos)
             {
-                var imageId = await _context.FileToApis
+                var image = await _context.FileToApis
                     .FirstOrDefaultAsync(x => x.ExistingFilePath == dto.ExistingFilePath);
 
-                if (imageId != null)
+                if (image != null)
                 {
-                    var filePath = _webHost.ContentRootPath + "\\multipleFileUpload\\"
-                        + imageId.ExistingFilePath;
+                    string filePath = Path.Combine(_webHost.ContentRootPath, "multipleFileUpload", image.ExistingFilePath);
 
                     if (File.Exists(filePath))
                     {
                         File.Delete(filePath);
                     }
 
-                    _context.FileToApis.Remove(imageId);
-                    await _context.SaveChangesAsync();
+                    _context.FileToApis.Remove(image);
                 }
             }
 
+            await _context.SaveChangesAsync();
             return null;
         }
 
-        // ===== REAL ESTATE MEETODID (uued) =====
+        // ===== REAL ESTATE MEETODID =====
         public void UploadFilesToDatabase(RealEstateDto dto, RealEstate domain)
         {
             if (dto.Files != null && dto.Files.Count > 0)
@@ -109,7 +110,7 @@ namespace ShopTARge23.ApplicationServices.Services
                 {
                     using (var target = new MemoryStream())
                     {
-                        FileToDatabase files = new FileToDatabase()
+                        var fileToDb = new FileToDatabase
                         {
                             Id = Guid.NewGuid(),
                             ImageTitle = image.FileName,
@@ -117,19 +118,20 @@ namespace ShopTARge23.ApplicationServices.Services
                         };
 
                         image.CopyTo(target);
-                        files.ImageData = target.ToArray();
+                        fileToDb.ImageData = target.ToArray();
 
-                        _context.FileToDatabases.Add(files);
+                        _context.FileToDatabases.Add(fileToDb);
                     }
                 }
+
+                _context.SaveChanges();
             }
         }
 
         public async Task<FileToDatabase> RemoveImageFromDatabase(FileToDatabaseDto dto)
         {
             var image = await _context.FileToDatabases
-                .Where(x => x.Id == dto.Id)
-                .FirstOrDefaultAsync();
+                .FirstOrDefaultAsync(x => x.Id == dto.Id);
 
             if (image != null)
             {
@@ -145,16 +147,15 @@ namespace ShopTARge23.ApplicationServices.Services
             foreach (var dto in dtos)
             {
                 var image = await _context.FileToDatabases
-                    .Where(x => x.Id == dto.Id)
-                    .FirstOrDefaultAsync();
+                    .FirstOrDefaultAsync(x => x.Id == dto.Id);
 
                 if (image != null)
                 {
                     _context.FileToDatabases.Remove(image);
-                    await _context.SaveChangesAsync();
                 }
             }
 
+            await _context.SaveChangesAsync();
             return null;
         }
     }

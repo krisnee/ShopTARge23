@@ -4,8 +4,6 @@ using ShopTARge23.Data;
 using ShopTARge23.ApplicationServices.Services;
 
 
-/// muudatus Kristi
-
 namespace ShopTARge23
 {
     public class Program

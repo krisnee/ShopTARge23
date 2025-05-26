@@ -1,0 +1,67 @@
+﻿@model ShopTARge23.Models.RealEstates.RealEstateDetailsViewModel
+
+@{
+    ViewBag.Title = "Property Details";
+}
+
+<h1>Property Details</h1>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h4>@Html.DisplayFor(model => model.Location)</h4>
+            </div>
+            <div class="card-body">
+                <dl class="row">
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Size)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Size) m²</dd>
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.RoomNumber)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.RoomNumber)</dd>
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.BuildingType)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.BuildingType)</dd>
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.CreatedAt)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.CreatedAt)</dd>
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.ModifiedAt)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.ModifiedAt)</dd>
+                </dl>
+            </div>
+            <div class="card-footer">
+                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
+                <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        @if (Model.Images.Any())
+        {
+            <div class="card">
+                <div class="card-header">
+                    <h5>Property Images</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        @foreach (var image in Model.Images)
+                        {
+                            <div class="col-md-6 mb-3">
+                                <img src="data:image/jpeg;base64,@image.Image" alt="@image.ImageTitle" class="img-fluid rounded" style="max-height: 200px; width: 100%; object-fit: cover;" />
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-info">
+                <h5>No Images</h5>
+                <p>No images have been uploaded for this property yet.</p>
+            </div>
+        }
+    </div>
+</div>

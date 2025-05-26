@@ -1,0 +1,37 @@
+﻿@model IEnumerable<ShopTARge23.Models.RealEstates.RealEstateIndexViewModel>
+
+@{
+    ViewBag.Title = "Real Estate Properties";
+}
+
+<h1>Real Estate Properties</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Add New Property</a>
+</p>
+
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">@Html.DisplayFor(modelItem => item.Location)</h5>
+                    <p class="card-text">
+                        <strong>Size:</strong> @Html.DisplayFor(modelItem => item.Size) m²<br />
+                        <strong>Rooms:</strong> @Html.DisplayFor(modelItem => item.RoomNumber)<br />
+                        <strong>Type:</strong> @Html.DisplayFor(modelItem => item.BuildingType)
+                    </p>
+                    <div class="btn-group" role="group">
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info btn-sm">Details</a>
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning btn-sm">Edit</a>
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm">Delete</a>
+                    </div>
+                </div>
+                <div class="card-footer text-muted">
+                    Created: @Html.DisplayFor(modelItem => item.CreatedAt)
+                </div>
+            </div>
+        </div>
+    }
+</div>
